@@ -1,0 +1,9 @@
+BEGIN:VCARD
+VERSION:3.0
+N;CHARSET=UTF-8:Петросян;Артур;;;
+FN;CHARSET=UTF-8:Артур Петросян
+ORG;CHARSET=UTF-8:КубГМУ
+TITLE;CHARSET=UTF-8:Студент-стоматолог, 2 курс
+TEL;TYPE=CELL,VOICE:+79180223200
+NOTE;CHARSET=UTF-8:Институт стоматологии\, 14 группа\, Краснодар
+END:VCARD
