@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#1944bf">
+  <meta name="theme-color" content="#233eaa">
   <title>Артур Петросян — студент-стоматолог</title>
 
   <script>
@@ -91,14 +91,66 @@
       height: 19vw;
       border-width: 2px;
     }
-    .cover-copy { align-self: center; padding: 3rem 0; }
+    .opening-main {
+      align-self: center;
+      display: grid;
+      grid-template-columns: minmax(260px, 420px) minmax(280px, 1fr);
+      align-items: center;
+      gap: clamp(24px, 5vw, 72px);
+      padding: 3rem 0;
+      min-height: 0;
+    }
+    .cover-media {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      aspect-ratio: 4 / 5;
+      border-radius: 28px;
+      overflow: hidden;
+      background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.22);
+      box-shadow: 0 26px 60px rgba(7, 20, 58, .28);
+      backdrop-filter: blur(8px);
+    }
+    .cover-media img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      display: block;
+    }
+    .cover-media-fallback {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: rgba(255,255,255,.86);
+      font: italic clamp(70px, 13vw, 132px) Georgia, serif;
+      background: linear-gradient(145deg, rgba(255,255,255,.09), rgba(255,255,255,.02));
+    }
+    .cover-copy { align-self: center; }
     .cover-name { font: 500 clamp(64px, 10vw, 166px)/.93 Arial, sans-serif; letter-spacing: -.07em; }
     .cover-name em { display: block; color: #f1e5ff; }
-    .cover-role { margin-top: 1.6rem; font-size: clamp(17px, 2vw, 27px); }
-    .cover-place { margin-top: .35rem; color: #d7dff9; font-size: 15px; }
     @media (max-width: 600px) {
       .opening::before, .opening::after { top: 18%; right: -45vw; width: 105vw; height: 33vw; }
       .opening::after { top: 21%; }
+    }
+    @media (max-width: 880px) {
+      .opening-main {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 2rem 0 3rem;
+      }
+      .cover-media {
+        max-width: min(100%, 420px);
+        margin: 0 auto;
+        aspect-ratio: 4 / 4.6;
+      }
+      .cover-copy {
+        text-align: center;
+      }
     }
     .topbar, .opening-bottom {
       position: relative;
@@ -215,20 +267,99 @@
     .portrait {
       position: relative;
       width: 100%;
-      height: clamp(340px, 62vh, 740px);
-      height: clamp(340px, 62svh, 740px);
+      min-height: clamp(340px, 54vh, 620px);
       overflow: hidden;
-      border-radius: 4px;
-      background: linear-gradient(135deg, #b6c2cb, #8899a8 54%, #435369);
+      border-radius: 18px;
+      background: linear-gradient(145deg, #f9f7ef, #ecf1f8 52%, #dce6f7);
+      border: 1px solid rgba(21, 38, 57, .08);
+      padding: clamp(26px, 5vw, 48px);
       display: grid;
-      place-items: center;
+      align-content: space-between;
+      gap: 18px;
     }
-    .portrait-monogram {
-      color: #f5f3e7;
-      font: italic clamp(66px, 15vw, 130px) Georgia, serif;
+    .portrait::after {
+      content: "";
+      position: absolute;
+      inset: auto -8% -24% auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(25,68,191,.14), rgba(25,68,191,0));
+      pointer-events: none;
     }
-    .portrait img { object-position: 50% 47%; }
+    .portrait-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      min-height: 38px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(25, 68, 191, .09);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .03em;
+      text-transform: uppercase;
+    }
+    .about-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 560px;
+    }
+    .about-copy h3 {
+      margin: 0;
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: .95;
+      letter-spacing: -.06em;
+      font-weight: 500;
+    }
+    .about-copy p {
+      margin-top: 16px;
+      font-size: clamp(17px, 2.2vw, 21px);
+      line-height: 1.5;
+      color: #31465d;
+    }
+    .about-list {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .about-list li {
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.6);
+      border: 1px solid rgba(21, 38, 57, .08);
+      backdrop-filter: blur(5px);
+    }
+    .about-list strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      color: #5a6a7a;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .about-list span {
+      display: block;
+      font-size: 17px;
+      letter-spacing: -.02em;
+    }
     figcaption { padding-top: 22px; }
+    @media (max-width: 600px) {
+      .portrait {
+        padding: 22px;
+        min-height: auto;
+      }
+      .about-list {
+        grid-template-columns: 1fr;
+      }
+    }
     h1, h2 {
       line-height: .96;
       letter-spacing: -.065em;
@@ -290,6 +421,448 @@
       html { scroll-behavior: auto; }
       .tooth-art { animation: none; transform: rotate(-4deg); }
     }
+  
+    /* =========================================================
+       Y2K VISUAL LAYER — оформление поверх исходной структуры
+       ========================================================= */
+    :root {
+      --paper: #edf3fb;
+      --ink: #172442;
+      --blue: #3454d7;
+      --line: rgba(48, 68, 119, .18);
+      --ice: #dff8ff;
+      --chrome: #eaf4ff;
+      --lilac: #c8baff;
+      --pink: #f4c5ed;
+    }
+
+    html {
+      background: #edf3fb;
+      scroll-padding-top: 18px;
+    }
+
+    body {
+      color: var(--ink);
+      background:
+        radial-gradient(ellipse at 8% 12%, rgba(191, 226, 255, .62), transparent 34%),
+        radial-gradient(ellipse at 92% 47%, rgba(226, 203, 255, .42), transparent 34%),
+        linear-gradient(145deg, #f7fbff 0%, #eaf1fb 48%, #f5effb 100%);
+      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      letter-spacing: -.012em;
+    }
+
+    /* Небольшой цифровой блеск на фоне, без тяжёлых текстур */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .28;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.95) 0 1px, transparent 1.8px),
+        radial-gradient(circle, rgba(117,157,230,.42) 0 1px, transparent 1.8px);
+      background-size: 43px 43px, 67px 67px;
+      background-position: 0 0, 19px 27px;
+    }
+
+    a {
+      transition: color .2s ease, background .2s ease, border-color .2s ease,
+                  box-shadow .2s ease, transform .2s ease;
+    }
+
+    a:focus-visible {
+      outline: 3px solid #f0aee6;
+      outline-offset: 4px;
+    }
+
+    /* Первый экран: глубокий синий + холодные неоновые переливы */
+    .blue-scene {
+      color: #f8fbff;
+      background:
+        radial-gradient(ellipse at 78% 20%, rgba(112, 230, 255, .38), transparent 32%),
+        radial-gradient(ellipse at 18% 88%, rgba(191, 157, 255, .28), transparent 36%),
+        linear-gradient(128deg, #101b50 0%, #233eaa 48%, #426be0 100%);
+    }
+
+    .opening {
+      background:
+        radial-gradient(ellipse at 78% 22%, rgba(114, 230, 255, .32), transparent 33%),
+        radial-gradient(ellipse at 20% 92%, rgba(186, 158, 255, .30), transparent 38%),
+        linear-gradient(128deg, #101a4b 0%, #1d399b 53%, #4268d5 100%);
+    }
+
+    .opening::before {
+      opacity: .88;
+      filter: drop-shadow(0 0 15px rgba(183, 235, 255, .22));
+    }
+
+    .opening::after {
+      opacity: .62;
+      filter: drop-shadow(0 0 12px rgba(201, 190, 255, .32));
+    }
+
+    .topbar {
+      border-bottom-color: rgba(228, 245, 255, .26);
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: -.045em;
+      text-shadow: 0 1px 12px rgba(180, 224, 255, .16);
+    }
+
+    .spade {
+      color: #f3c9ff;
+      text-shadow: 0 0 12px rgba(255, 193, 247, .62);
+    }
+
+    .nav-link {
+      font-weight: 600;
+      letter-spacing: .015em;
+      color: rgba(248, 251, 255, .9);
+    }
+
+    .nav-link:hover {
+      color: #bdf5ff;
+      text-shadow: 0 0 12px rgba(189, 245, 255, .55);
+    }
+
+    .opening-bottom {
+      border-top-color: rgba(228, 245, 255, .26);
+    }
+
+    .cover-media {
+      border: 1px solid rgba(255, 255, 255, .68);
+      border-radius: 25px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.42), rgba(181,215,255,.12)),
+        #b9c9e5;
+      box-shadow:
+        0 28px 72px rgba(4, 13, 48, .38),
+        0 0 0 5px rgba(222, 243, 255, .08),
+        inset 0 1px 0 rgba(255,255,255,.8);
+      transform: rotate(-1deg);
+    }
+
+    .cover-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.20), transparent 32%),
+        linear-gradient(0deg, rgba(14, 28, 72, .22), transparent 34%);
+      mix-blend-mode: screen;
+    }
+
+    .cover-media img {
+      filter: saturate(1.08) contrast(1.025);
+    }
+
+    .cover-media-fallback {
+      color: rgba(255,255,255,.94);
+      text-shadow: 0 4px 25px rgba(22, 42, 105, .35);
+      background:
+        radial-gradient(circle at 30% 22%, rgba(255,255,255,.55), transparent 34%),
+        linear-gradient(145deg, #b9eaff, #8d9fe7 55%, #c8a9e8);
+    }
+
+    .cover-copy {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-name {
+      color: #f8fbff;
+      text-shadow: 0 7px 30px rgba(7, 17, 61, .28);
+      letter-spacing: -.078em;
+    }
+
+    .cover-name em {
+      color: #d9f7ff;
+      background: linear-gradient(100deg, #f8fdff 4%, #bcefff 38%, #e8d6ff 72%, #fff1fc 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 4px 14px rgba(172, 211, 255, .18));
+    }
+
+    /* Глянцевые Y2K-кнопки */
+    .pill {
+      min-height: 46px;
+      padding: 10px 19px;
+      border-radius: 15px;
+      font-weight: 700;
+      letter-spacing: .005em;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.88),
+        0 5px 16px rgba(12, 28, 78, .13);
+    }
+
+    .pill:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.95),
+        0 9px 22px rgba(12, 28, 78, .2);
+    }
+
+    .pill-light {
+      color: #253c91;
+      border: 1px solid rgba(255,255,255,.9);
+      background: linear-gradient(180deg, #fff 0%, #e9f7ff 48%, #d7e7ff 100%);
+    }
+
+    .pill-blue {
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.38);
+      background: linear-gradient(135deg, #526ff0 0%, #354ec0 52%, #263b98 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.38),
+        0 7px 20px rgba(48, 71, 176, .23);
+    }
+
+    .pill-outline {
+      color: #30478e;
+      border: 1px solid rgba(89, 117, 184, .28);
+      background: linear-gradient(180deg, rgba(255,255,255,.86), rgba(224,237,255,.72));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.95), 0 4px 14px rgba(43,64,119,.08);
+    }
+
+    /* Основная визитка */
+    .card {
+      max-width: 860px;
+    }
+
+    .card-header {
+      border-bottom: 1px solid rgba(83, 111, 174, .17);
+      margin-bottom: 18px;
+    }
+
+    .card-header .brand {
+      color: #233b82;
+    }
+
+    .card-header .nav-link {
+      color: #5068a7;
+    }
+
+    .avatar {
+      border: 2px solid rgba(255,255,255,.95);
+      background: linear-gradient(145deg, #e9fbff, #c9d6ff 58%, #efd8ff);
+      box-shadow:
+        0 4px 13px rgba(48, 72, 133, .18),
+        inset 0 1px 3px rgba(255,255,255,.9);
+    }
+
+    .portrait {
+      border-radius: 27px;
+      border: 1px solid rgba(255,255,255,.96);
+      background:
+        radial-gradient(ellipse at 88% 12%, rgba(199, 229, 255, .95), transparent 33%),
+        radial-gradient(ellipse at 8% 95%, rgba(221, 197, 255, .62), transparent 40%),
+        linear-gradient(145deg, #fbfdff 0%, #e8f3ff 48%, #f4edff 100%);
+      box-shadow:
+        0 18px 48px rgba(48, 68, 123, .13),
+        0 3px 10px rgba(48, 68, 123, .06),
+        inset 0 1px 0 #fff;
+    }
+
+    .portrait::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: .32;
+      background:
+        linear-gradient(118deg, transparent 0 38%, rgba(255,255,255,.72) 49%, transparent 60%),
+        repeating-linear-gradient(0deg, rgba(110,143,204,.055) 0 1px, transparent 1px 5px);
+    }
+
+    .portrait::after {
+      z-index: 0;
+      background: radial-gradient(circle, rgba(98, 147, 235, .22), rgba(194, 172, 255, 0));
+    }
+
+    .portrait > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .portrait-badge {
+      color: #3854b3;
+      border: 1px solid rgba(255,255,255,.92);
+      background: linear-gradient(180deg, rgba(255,255,255,.88), rgba(221,239,255,.72));
+      box-shadow: 0 5px 16px rgba(64, 92, 159, .10), inset 0 1px 0 #fff;
+      letter-spacing: .07em;
+    }
+
+    .about-copy h3 {
+      color: #1d2e59;
+      text-shadow: 0 2px 18px rgba(115, 151, 219, .12);
+    }
+
+    .about-copy h3 em {
+      color: #526fd0;
+    }
+
+    .about-copy p {
+      color: #405276;
+    }
+
+    .about-list li {
+      border: 1px solid rgba(255,255,255,.92);
+      border-radius: 16px;
+      background: linear-gradient(145deg, rgba(255,255,255,.84), rgba(231,241,255,.72));
+      box-shadow:
+        0 5px 16px rgba(58, 81, 139, .07),
+        inset 0 1px 0 rgba(255,255,255,.95);
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .about-list li:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 9px 22px rgba(58, 81, 139, .12), inset 0 1px 0 #fff;
+    }
+
+    .about-list strong {
+      color: #7182a7;
+      letter-spacing: .09em;
+    }
+
+    .about-list span {
+      color: #26395f;
+      font-weight: 600;
+    }
+
+    figcaption {
+      padding-top: 25px;
+    }
+
+    figcaption h1 {
+      color: #1d2d58;
+    }
+
+    figcaption h1 em {
+      color: #536fd0;
+    }
+
+    .role {
+      color: #344a7d;
+      font-weight: 600;
+    }
+
+    .details {
+      color: #7180a0;
+    }
+
+    /* Финальный экран и хромированный зуб */
+    .contact-hero {
+      border-top: 1px solid rgba(255,255,255,.35);
+      border-bottom: 1px solid rgba(42, 62, 135, .2);
+      background:
+        radial-gradient(ellipse at 74% 30%, rgba(139, 232, 255, .32), transparent 30%),
+        radial-gradient(ellipse at 16% 90%, rgba(208, 173, 255, .27), transparent 38%),
+        linear-gradient(125deg, #101b50 0%, #243fa7 52%, #466ce0 100%);
+    }
+
+    .contact-hero h2 {
+      color: #f8fbff;
+      text-shadow: 0 8px 30px rgba(6, 17, 61, .28);
+    }
+
+    .contact-hero h2 em {
+      color: #c9f4ff;
+      text-shadow: 0 0 22px rgba(177, 236, 255, .24);
+    }
+
+    .orbit {
+      border-color: rgba(224, 245, 255, .45);
+      box-shadow: 0 0 18px rgba(173, 225, 255, .13);
+    }
+
+    .tooth-art {
+      filter: drop-shadow(0 15px 18px rgba(3, 13, 47, .34))
+              drop-shadow(0 0 13px rgba(191, 232, 255, .18));
+    }
+
+    /* Контакты — аккуратная стеклянная панель */
+    .links {
+      max-width: 860px;
+      margin: 28px auto 38px;
+      padding: 20px clamp(18px, 4vw, 40px) 30px;
+      border: 1px solid rgba(255,255,255,.92);
+      border-radius: 25px;
+      background: linear-gradient(145deg, rgba(255,255,255,.88), rgba(232,241,255,.78));
+      box-shadow:
+        0 16px 42px rgba(54, 75, 132, .10),
+        inset 0 1px 0 rgba(255,255,255,.98);
+      backdrop-filter: blur(12px);
+    }
+
+    .row {
+      min-height: 60px;
+      padding: 0 14px;
+      border-bottom: 1px solid rgba(91, 116, 174, .17);
+      border-radius: 12px;
+    }
+
+    a.row:hover {
+      color: #2e4fc1;
+      background: linear-gradient(90deg, rgba(210,239,255,.66), rgba(232,222,255,.52));
+      transform: translateX(3px);
+    }
+
+    .row span {
+      font-weight: 700;
+      letter-spacing: -.025em;
+    }
+
+    .row small {
+      color: #7180a2;
+      font-weight: 600;
+    }
+
+    footer {
+      color: #8792ad;
+      padding: 10px 14px 0;
+    }
+
+    @media (max-width: 880px) {
+      .cover-media {
+        transform: none;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .card-header {
+        min-height: 72px;
+        margin-bottom: 14px;
+      }
+
+      .portrait {
+        border-radius: 22px;
+      }
+
+      .links {
+        margin: 18px 14px 28px;
+        padding: 14px 12px 24px;
+        border-radius: 21px;
+      }
+
+      .row {
+        min-height: 57px;
+        padding: 0 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      a, .about-list li {
+        transition: none;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -334,10 +907,14 @@
         <a class="nav-link" href="#contacts">Контакты ↓</a>
       </header>
 
-      <div class="cover-copy">
-        <h1 class="cover-name">Артур <em>Петросян</em></h1>
-        <p class="cover-role">Студент-стоматолог, 2 курс</p>
-        <p class="cover-place">КубГМУ · Краснодар</p>
+      <div class="opening-main">
+        <div class="cover-media">
+          <span class="cover-media-fallback" aria-hidden="true">АП</span>
+          <img id="cover-photo" alt="Артур Петросян" hidden>
+        </div>
+        <div class="cover-copy">
+          <h1 class="cover-name">Артур <em>Петросян</em></h1>
+        </div>
       </div>
 
       <div class="opening-bottom">
@@ -362,8 +939,19 @@
 
       <figure>
         <div class="portrait">
-          <span class="portrait-monogram" aria-hidden="true">АП</span>
-          <img id="portrait" alt="Артур Петросян в кафе" hidden>
+          <span class="portrait-badge">Кратко обо мне</span>
+          <div class="about-copy">
+            <h3>Артур <em>Петросян</em></h3>
+            <p>Студент-стоматолог, учусь на 2 курсе в Институте стоматологии КубГМУ. Сейчас фокус — учеба, практика и развитие в профессии.</p>
+          </div>
+          <ul class="about-list" aria-label="Краткая информация об Артуре Петросяне">
+            <li><strong>Статус</strong><span>Студент-стоматолог</span></li>
+            <li><strong>Курс</strong><span>2 курс</span></li>
+            <li><strong>Вуз</strong><span>КубГМУ</span></li>
+            <li><strong>Группа</strong><span>14 группа</span></li>
+            <li><strong>Город</strong><span>Краснодар</span></li>
+            <li><strong>Формат</strong><span>На связи по всем контактам ниже</span></li>
+          </ul>
         </div>
         <figcaption>
           <h1>Артур <em>Петросян</em></h1>
@@ -439,13 +1027,14 @@
       tryNext();
     }
 
-    loadPhoto("portrait", [
+    const portraitCandidates = [
       FILES.portrait,
       "./portrait.jpg", "./portrait.JPEG",
       "./photo.jpg", "./photo.jpeg",
       "./images/portrait.jpeg", "./images/portrait.jpg"
-    ]);
+    ];
 
+    loadPhoto("cover-photo", portraitCandidates);
     loadPhoto("avatar", [
       FILES.avatar,
       "./avatar.jpg", "./avatar.JPEG",
