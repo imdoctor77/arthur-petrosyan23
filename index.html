@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#153eab">
+  <title>Артур Петросян — студент-стоматолог</title>
+  <style>
+    :root {
+      --paper: #f5f2ea;
+      --ink: #192639;
+      --blue: #153eab;
+      --line: #19263930;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 16px/1.45 Arial, Helvetica, sans-serif;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; cursor: pointer; }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid #ed9b34;
+      outline-offset: 4px;
+    }
+    [hidden] { display: none !important; }
+    h1, h2, p, figure { margin: 0; }
+    .definitions { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+    /* Первый экран */
+    #story { position: relative; height: 300vh; height: 300svh; }
+    .screen {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      height: 100svh;
+      overflow: hidden;
+      isolation: isolate;
+      color: white;
+      background: radial-gradient(ellipse at 62% 34%, #6093f0, #285fd0 44%, #123891 86%);
+    }
+    .stage { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .model {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      width: min(106vw, 78svh, 760px);
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%);
+      transform-origin: 52% 36%;
+      will-change: transform;
+    }
+    .half { position: absolute; inset: 0; will-change: transform; }
+    .half.left { clip-path: url(#left-half); }
+    .half.right { clip-path: url(#right-half); }
+    .half img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      clip-path: url(#molar-outline);
+    }
+    .lesion {
+      position: absolute;
+      left: 47.8%;
+      top: 23.8%;
+      width: 12%;
+      height: 5.5%;
+      overflow: visible;
+    }
+    .instrument {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 142%;
+      height: auto;
+      clip-path: url(#instrument-outline);
+      transform-origin: 7.5% 54%;
+      opacity: 0;
+      will-change: transform;
+    }
+    .controls {
+      position: absolute;
+      z-index: 3;
+      bottom: max(24px, env(safe-area-inset-bottom));
+      left: 6vw;
+      right: 6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .controls button, .controls a {
+      border: 1px solid #ffffff73;
+      border-radius: 32px;
+      padding: 11px 17px;
+      background: #16398065;
+      color: white;
+      font-size: 14px;
+    }
+    .controls a { background: transparent; border-color: transparent; }
+    .progress {
+      position: absolute;
+      z-index: 3;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background: #f0f3d5;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
+    #intro-error {
+      position: absolute;
+      inset: 40% 8% auto;
+      text-align: center;
+      font-size: 16px;
+    }
+
+    /* Визитка */
+    .card {
+      max-width: 760px;
+      margin: auto;
+      padding: 0 clamp(18px, 4vw, 36px) 48px;
+    }
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 19px 0;
+    }
+    .identity { display: flex; align-items: center; gap: 10px; font-weight: 600; }
+    .avatar {
+      display: block;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: 50% 34%;
+    }
+    .spade { color: #e92b21; font: 23px/1 Georgia, serif; }
+    .small-link { font-size: 13px; }
+    .portrait {
+      display: block;
+      width: 100%;
+      height: clamp(340px, 60svh, 690px);
+      border-radius: 5px;
+      object-fit: cover;
+      /* На вертикальном кадре остаются лицо, рука и часть столика. */
+      object-position: 50% 48%;
+      background: #d7d0c4;
+    }
+    figcaption { padding: 21px 0 0; }
+    h1, h2 { line-height: .98; letter-spacing: -.065em; font-weight: 500; }
+    h1 { font-size: clamp(42px, 9.6vw, 83px); }
+    h1 em, h2 em { font-family: Georgia, serif; font-weight: 400; }
+    .role { margin-top: 15px; font-size: clamp(19px, 4.6vw, 27px); letter-spacing: -.035em; }
+    .university { margin-top: 4px; font-size: 15px; color: #526070; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 23px; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 17px;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      font-size: 14px;
+    }
+    .primary { background: var(--blue); color: white; border-color: var(--blue); }
+
+    /* Контакты */
+    .contacts { background: #112643; color: #f5f2ea; }
+    .contacts-inner {
+      max-width: 760px;
+      margin: auto;
+      padding: 52px clamp(18px, 4vw, 36px) 30px;
+    }
+    h2 { margin-bottom: 25px; font-size: clamp(48px, 10vw, 78px); }
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 57px;
+      border-top: 1px solid #ffffff35;
+    }
+    .row small { color: #cad6e5; font-size: 13px; }
+    footer { margin-top: 35px; font-size: 12px; color: #cad6e5; }
+    @media (prefers-reduced-motion: reduce) {
+      #story { height: 100vh; height: 100svh; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Контуры рассчитаны под две исходные картинки из чата. -->
+  <svg class="definitions" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <clipPath id="molar-outline" clipPathUnits="objectBoundingBox">
+        <path d="M.201 .316
+          C.203 .244 .222 .172 .255 .135
+          C.279 .111 .326 .122 .358 .126
+          C.390 .113 .394 .086 .444 .079
+          C.492 .075 .519 .046 .550 .044
+          C.592 .052 .625 .103 .661 .146
+          C.701 .133 .734 .119 .759 .125
+          C.790 .134 .794 .183 .812 .229
+          C.842 .298 .852 .344 .822 .395
+          C.800 .438 .772 .455 .756 .493
+          C.748 .554 .739 .612 .740 .651
+          C.745 .720 .721 .786 .684 .805
+          C.658 .823 .636 .798 .622 .770
+          C.604 .734 .595 .689 .575 .654
+          C.537 .679 .505 .754 .470 .823
+          C.440 .887 .414 .940 .377 .953
+          C.346 .969 .310 .941 .287 .898
+          C.250 .829 .235 .776 .240 .708
+          C.241 .652 .265 .588 .274 .546
+          C.264 .503 .246 .464 .239 .427
+          C.218 .397 .205 .360 .201 .316 Z"/>
+      </clipPath>
+      <clipPath id="left-half" clipPathUnits="objectBoundingBox">
+        <path d="M0 0H.515Q.477 .19 .512 .39T.492 .69L.509 1H0Z"/>
+      </clipPath>
+      <clipPath id="right-half" clipPathUnits="objectBoundingBox">
+        <path d="M.515 0H1V1H.509L.492 .69Q.547 .49 .512 .39Q.477 .19 .515 0Z"/>
+      </clipPath>
+      <clipPath id="instrument-outline" clipPathUnits="objectBoundingBox">
+        <path d="M.071 .540 L.090 .466 L.095 .436
+          Q.080 .426 .077 .410 Q.070 .365 .080 .306
+          L.095 .253 Q.099 .235 .111 .242
+          L.172 .291 Q.183 .300 .179 .318
+          L.176 .346 Q.225 .389 .324 .411
+          Q.405 .425 .533 .407 L.916 .401
+          Q.925 .402 .926 .416 L.928 .608
+          Q.927 .631 .917 .631 L.690 .628
+          Q.520 .626 .398 .594 Q.250 .561 .158 .459
+          Q.147 .444 .134 .447 L.116 .457
+          L.104 .446 L.099 .473 L.079 .548 Z"/>
+      </clipPath>
+      <linearGradient id="pigment" x1="0" x2="1" y1="0" y2="1">
+        <stop stop-color="#b98b59"/>
+        <stop offset=".45" stop-color="#573421"/>
+        <stop offset=".70" stop-color="#38251b"/>
+        <stop offset="1" stop-color="#a17754"/>
+      </linearGradient>
+    </defs>
+  </svg>
+
+  <main>
+    <section id="story" aria-label="Вступление с моляром">
+      <div class="screen" id="screen">
+        <div class="stage" aria-hidden="true">
+          <div class="model" id="model">
+            <div class="half left" id="left"><img id="tooth" src="molar.png" alt=""></div>
+            <div class="half right" id="right"><img src="molar.png" alt=""></div>
+            <svg class="lesion" id="lesion" viewBox="0 0 100 44">
+              <path fill="url(#pigment)"
+                d="M1 22Q15 24 31 17L39 3L42 16Q52 10 60 15
+                   L95 5Q83 16 65 21Q55 30 44 25L28 40L31 26Q18 25 1 22Z"/>
+            </svg>
+            <img class="instrument" id="tool" src="handpiece.png" alt="">
+          </div>
+        </div>
+        <p id="intro-error" hidden>Для вступления положи файл molar.png рядом с index.html.</p>
+        <div class="controls">
+          <a href="#card">К визитке ↓</a>
+          <button id="play" type="button">Смотреть ▷</button>
+        </div>
+        <div class="progress" id="progress"></div>
+      </div>
+    </section>
+
+    <article class="card" id="card">
+      <header class="card-header">
+        <a class="identity" href="#card">
+          <img class="avatar" src="avatar.png" alt="Портрет Артура Петросяна">
+          <span><span class="spade" aria-hidden="true">♠</span> А. Петросян</span>
+        </a>
+        <a class="small-link" href="#contacts">Контакты ↓</a>
+      </header>
+
+      <figure>
+        <img class="portrait" src="portrait.png"
+             alt="Артур в очках сидит за столиком в кафе">
+        <figcaption>
+          <h1>Артур <em>Петросян</em></h1>
+          <p class="role">Студент-стоматолог, 2 курс</p>
+          <p class="university">Институт стоматологии КубГМУ · 14 группа · Краснодар</p>
+        </figcaption>
+      </figure>
+
+      <div class="actions">
+        <a class="pill primary" href="https://t.me/+79180223200"
+           target="_blank" rel="noopener noreferrer">Написать мне ↗</a>
+        <a class="pill" id="save-contact" download="Артур-Петросян.vcf">
+          Сохранить контакт ↓
+        </a>
+      </div>
+    </article>
+
+    <section class="contacts" id="contacts">
+      <div class="contacts-inner">
+        <h2>На <em>связи.</em></h2>
+        <a class="row" href="https://t.me/+79180223200" target="_blank" rel="noopener noreferrer">
+          <span>Telegram</span><small>Написать ↗</small>
+        </a>
+        <a class="row" href="https://wa.me/79180223200" target="_blank" rel="noopener noreferrer">
+          <span>WhatsApp</span><small>Написать ↗</small>
+        </a>
+        <a class="row" href="tel:+79180223200">
+          <span>Позвонить</span><small>+7 (918) 022-32-00</small>
+        </a>
+        <a class="row" href="https://www.instagram.com/arthur_petrosyan__/"
+           target="_blank" rel="noopener noreferrer">
+          <span>Instagram</span><small>@arthur_petrosyan__ ↗</small>
+        </a>
+        <a class="row" href="https://www.tiktok.com/@artibembem"
+           target="_blank" rel="noopener noreferrer">
+          <span>TikTok</span><small>@artibembem ↗</small>
+        </a>
+        <a class="row" href="https://vk.ru/chauanaeam"
+           target="_blank" rel="noopener noreferrer">
+          <span>ВКонтакте</span><small>Открыть ↗</small>
+        </a>
+        <div class="row"><span>Discord</span><small>mtheblessedh</small></div>
+        <footer>Артур Петросян · Краснодар</footer>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const byId = id => document.getElementById(id);
+    const story = byId("story");
+    const screen = byId("screen");
+    const button = byId("play");
+    const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+    const duration = 8000;
+
+    let playing = false;
+    let frame = 0;
+    let startedAt = 0;
+    let startProgress = 0;
+    let travel = 1;
+
+    function clamp(x) {
+      return Math.max(0, Math.min(1, x));
+    }
+
+    function ease(start, end, value) {
+      const t = clamp((value - start) / (end - start));
+      return t * t * t * (10 + t * (-15 + 6 * t));
+    }
+
+    function position() {
+      return clamp(-story.getBoundingClientRect().top / travel);
+    }
+
+    function paint(p) {
+      const approach = ease(.03, .42, p);
+      const enter = ease(.36, .49, p);
+      const clean = ease(.49, .64, p);
+      const leave = ease(.65, .75, p);
+      const zoom = ease(.72, .85, p);
+      const split = ease(.82, .99, p);
+      const away = 1 - enter + leave;
+
+      byId("model").style.transform =
+        `translate(-50%, -50%) perspective(1100px)
+         rotateX(${9 - 9 * approach}deg)
+         rotateZ(${-7 + 8 * approach}deg)
+         scale(${.84 + .18 * approach + .45 * zoom})`;
+
+      byId("left").style.transform =
+        `translateX(${-75 * split}%) rotate(${-11 * split}deg)`;
+      byId("right").style.transform =
+        `translateX(${75 * split}%) rotate(${11 * split}deg)`;
+
+      byId("lesion").style.clipPath = `inset(0 0 0 ${100 * clean}%)`;
+      byId("lesion").style.opacity = String(1 - split);
+
+      // Привязываем именно кончик бора к очищаемой части фиссуры.
+      const tipX = 47.8 + 12 * clean + 80 * away;
+      const tipY = 26.7 - 1.1 * clean - 34 * away;
+      const tool = byId("tool");
+      tool.style.left = `${tipX}%`;
+      tool.style.top = `${tipY}%`;
+      tool.style.transform = `translate(-7.5%, -54%) rotate(${-8 + 3 * clean}deg)`;
+      tool.style.opacity = String(enter * (1 - leave));
+
+      byId("progress").style.transform = `scaleX(${p})`;
+      button.textContent = playing ? "Ⅱ Пауза" : p > .01 && p < .99 ? "Продолжить ▷" : "Смотреть ▷";
+    }
+
+    function tick(now) {
+      frame = 0;
+      if (playing) {
+        const p = clamp(startProgress + (now - startedAt) / duration);
+        window.scrollTo(0, story.offsetTop + travel * p);
+        if (p >= 1) {
+          playing = false;
+          paint(1);
+          byId("card").scrollIntoView({ behavior: "smooth" });
+          return;
+        }
+      }
+      paint(position());
+      if (playing) requestFrame();
+    }
+
+    function requestFrame() {
+      if (!frame) frame = requestAnimationFrame(tick);
+    }
+
+    function pause() {
+      if (!playing) return;
+      playing = false;
+      requestFrame();
+    }
+
+    function measure() {
+      travel = Math.max(1, story.offsetHeight - screen.offsetHeight);
+      requestFrame();
+    }
+
+    button.addEventListener("click", () => {
+      if (playing) { pause(); return; }
+      if (reducedMotion.matches) {
+        byId("card").scrollIntoView();
+        return;
+      }
+      startProgress = position() >= .99 ? 0 : position();
+      startedAt = performance.now();
+      playing = true;
+      requestFrame();
+    });
+
+    document.querySelector(".controls a").addEventListener("click", pause);
+    addEventListener("scroll", requestFrame, { passive: true });
+    addEventListener("resize", measure);
+    addEventListener("wheel", pause, { passive: true });
+    addEventListener("touchstart", event => {
+      if (!button.contains(event.target)) pause();
+    }, { passive: true });
+    addEventListener("keydown", event => {
+      if (["Escape", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) pause();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) pause();
+    });
+
+    const tooth = byId("tooth");
+    function missingTooth() {
+      byId("intro-error").hidden = false;
+      byId("model").hidden = true;
+      button.hidden = true;
+    }
+    tooth.addEventListener("error", missingTooth);
+    if (tooth.complete && !tooth.naturalWidth) missingTooth();
+
+    const vcard = [
+      "BEGIN:VCARD",
+      "VERSION:3.0",
+      "N;CHARSET=UTF-8:Петросян;Артур;;;",
+      "FN;CHARSET=UTF-8:Артур Петросян",
+      "ORG;CHARSET=UTF-8:КубГМУ",
+      "TITLE;CHARSET=UTF-8:Студент-стоматолог",
+      "TEL;TYPE=CELL:+79180223200",
+      "END:VCARD",
+      ""
+    ].join("\r\n");
+
+    byId("save-contact").href =
+      "data:text/vcard;charset=utf-8," + encodeURIComponent(vcard);
+
+    measure();
+  </script>
+</body>
+</html>
